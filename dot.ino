@@ -47,7 +47,7 @@ void setup() {
   P.setFont(fontMini);
   P.setIntensity(0);
   P.displayClear();
-  P.displayScroll("Digital Clock by: Dwi Cahya Nur Faizi    0721 18 4000 0010", PA_CENTER, PA_SCROLL_LEFT, 150);
+  P.displayScroll("Digital Clock by: Dwi Cahya Nur Faizi    0721 18 4000 0010", PA_CENTER, PA_SCROLL_LEFT, 120);
   P.setTextAlignment(PA_CENTER);
   //rtc
   Wire.begin();
@@ -56,6 +56,8 @@ void setup() {
   pinMode(7, INPUT_PULLUP);
   pinMode(8, INPUT_PULLUP);
   pinMode(9, INPUT_PULLUP);
+  // tagangan ref internal
+  analogReference(INTERNAL);
 }
 
 void loop() {
@@ -180,7 +182,7 @@ void tampilTanggal() {
 void tampilSuhu(){
   checkButton();
   setIntensitas();
-  suhu = analogRead(SENSOR_PIN) * (5.0 / 1024.0) * 100;
+  suhu = analogRead(SENSOR_PIN) * 0.1074;
   bulat = suhu;
   desimal = suhu*100 - bulat*100;
   if (suhu < 0){
@@ -375,5 +377,5 @@ bool checkKabisat() {
 
 void setIntensitas() {
   intensitas = analogRead(LDR_PIN);
-  P.setIntensity((intensitas/100)*2);
+  P.setIntensity((intensitas/1023)*15);
 }
