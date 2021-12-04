@@ -377,5 +377,5 @@ bool checkKabisat() {
 
 void setIntensitas() {
   intensitas = analogRead(LDR_PIN);
-  P.setIntensity((intensitas/1023)*15);
+  P.setIntensity((intensitas*15)/1024);
 }
