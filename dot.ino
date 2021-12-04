@@ -28,6 +28,7 @@ DateTime t;
 // Define variable for sensor
 #define SENSOR_PIN  0
 #define LDR_PIN 1
+
 // Declare variable for button
 Button buttonA = Button(7, BUTTON_PULLUP);
 Button buttonB = Button(8, BUTTON_PULLUP);
@@ -47,8 +48,7 @@ void setup() {
   P.setFont(fontMini);
   P.setIntensity(0);
   P.displayClear();
-  P.displayScroll("Digital Clock by: Dwi Cahya Nur Faizi    0721 18 4000 0010", PA_CENTER, PA_SCROLL_LEFT, 120);
-  P.setTextAlignment(PA_CENTER);
+  P.displayScroll("Digital Clock by: Dwi Cahya Nur Faizi    0721 18 4000 0010", PA_RIGHT, PA_SCROLL_LEFT, 120);
   //rtc
   Wire.begin();
   rtc.begin();
