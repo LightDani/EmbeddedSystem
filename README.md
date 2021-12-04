@@ -14,10 +14,11 @@ Tugas Akhir Embedded System
 7. Ubah intensitas cahaya dot matrix sesuai dengan intensitas cahaya sekitar
 
 ## Daftar kebutuhan perangkat keras:
-1. Mikrokontroller
-2. Dot matrix display 8x32
-3. RTC
-4. Resistor
-5. Push button
-6. Sensor suhu analog
-7. LDR (Light Dependent Resistor)
+1. Power source
+2. Mikrokontroller
+3. Dot matrix display 8x32
+4. RTC
+5. Resistor
+6. Push button
+7. Sensor suhu analog
+8. LDR (Light Dependent Resistor)
