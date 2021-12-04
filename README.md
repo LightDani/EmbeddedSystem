@@ -1,7 +1,7 @@
 # embeddedSystem
 Tugas Akhir Embedded System
 
-Spesifikasi sistem:
+## Spesifikasi sistem:
 1. Tampilan Nama dan NRP pada awal jam hidup.
 2. Tanpilan dengan dot matrix 8x32
 3. Tampilan waktu dengan format hh:mm:ss
@@ -12,3 +12,12 @@ Spesifikasi sistem:
    - Tombol B: (dalam mode run) menampilkan tanggal selama 5 detik. (dalam mode ubah) tambah nilai (+1)
    - Tombol C: (dalam mode run) menampilkan suhu ruangan selama 5 detik. (dalam mode ubah) kurang nilai (-1)
 7. Ubah intensitas cahaya dot matrix sesuai dengan intensitas cahaya sekitar
+
+## Daftar kebutuhan perangkat keras:
+1. Mikrokontroller
+2. Dot matrix display 8x32
+3. RTC
+4. Resistor
+5. Push button
+6. Sensor suhu analog
+7. LDR (Light Dependent Resistor)
