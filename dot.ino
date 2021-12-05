@@ -309,17 +309,30 @@ void checkButton() {
         rtc.adjust(DateTime(tahun, bulan, hari, jam, menit, future.second()));
       }
       if (mode == 4) { // ubah hari
-        if (hari == 1){
-          if (bulan == 12){
-            bulan = 1;
-            rtc.adjust(DateTime(tahun, bulan, hari, jam, menit, detik));
+        if (bulan < 8) { // jan - jul
+          if (bulan % 2 == 1) {
+            maxHari = 31;
+          } else if (bulan == 2) {
+            if (checkKabisat()) {
+              maxHari = 29;
+            } else {
+              maxHari = 28;
+            }
           } else {
-            rtc.adjust(DateTime(tahun, bulan+1, hari, jam, menit, detik));
+            maxHari = 30;
           }
-          updateWaktu();
+        } else { // aug - des
+          if (bulan % 2 == 1) {
+            maxHari = 30;
+          } else {
+            maxHari = 31;
+          }
         }
-        DateTime future (t - TimeSpan(86400));
-        rtc.adjust(DateTime(tahun, future.month(), future.day(), jam, menit, detik));
+        if (hari == 1) {
+          rtc.adjust(DateTime(tahun, bulan, maxHari, jam, menit, detik));
+        } else {
+          rtc.adjust(DateTime(tahun, bulan, hari-1, jam, menit, detik));
+        }
       }
       if (mode == 5) { // ubah bulan
         if (bulan == 1) {
