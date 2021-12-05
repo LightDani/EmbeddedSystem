@@ -39,6 +39,7 @@ char disp[10];
 char temp[10];
 int jam, menit, detik, tahun, bulan, hari, timer, mode = 0, bulat, desimal, intensitas;
 float suhu;
+int maxHari, selisih;
 
 void setup() {
   // serial
@@ -48,7 +49,7 @@ void setup() {
   P.setFont(fontMini);
   P.setIntensity(0);
   P.displayClear();
-  P.displayScroll("Digital Clock by: Dwi Cahya Nur Faizi    0721 18 4000 0010", PA_RIGHT, PA_SCROLL_LEFT, 120);
+  P.displayScroll("Digital Clock by: Dwi Cahya Nur Faizi    0721 18 4000 0010", PA_RIGHT, PA_SCROLL_LEFT, 90);
   //rtc
   Wire.begin();
   rtc.begin();
@@ -233,44 +234,38 @@ void checkButton() {
       }
       if (mode == 4) { // ubah hari
         DateTime future (t + TimeSpan(86400));
-        hari = future.day();
         rtc.adjust(DateTime(tahun, bulan, future.day(), jam, menit, detik));
       }
       if (mode == 5) { // ubah bulan
-        if (bulan < 8) { // januari - juli
-          if (bulan % 2 == 1) { // bulan ganjil
-            DateTime future (t + TimeSpan(2678400)); // 31 hari
-            if (future.month() == 3){
-              if (checkKabisat()){
-                rtc.adjust(DateTime(tahun, 2, 29, jam, menit, detik));
-              }else{
-                rtc.adjust(DateTime(tahun, 2, 28, jam, menit, detik));
-              }
-            }else{
-              rtc.adjust(DateTime(tahun, future.month(), future.day(), jam, menit, detik));
+        if (bulan == 12) {
+          bulan = 1;
+        } else {
+          bulan++;
+        }
+        if (bulan < 8) { // jan - jul
+          if (bulan % 2 == 1) {
+            maxHari = 31;
+          } else if (bulan == 2) {
+            if (checkKabisat()) {
+              maxHari = 29;
+            } else {
+              maxHari = 28;
             }
-          } else { // bulan genap
-            if (bulan == 2) { // bulan feb
-              if (checkKabisat()) {
-                DateTime future (t + TimeSpan(2505600)); // 29 hari
-                rtc.adjust(DateTime(tahun, future.month(), future.day(), jam, menit, detik));
-              } else {
-                DateTime future (t + TimeSpan(2419200)); // 28 hari
-                rtc.adjust(DateTime(tahun, future.month(), future.day(), jam, menit, detik));
-              }
-            } else { // selain bulan februari
-              DateTime future (t + TimeSpan(2592000)); // 30 hari
-              rtc.adjust(DateTime(tahun, future.month(), future.day(), jam, menit, detik));
-            }
+          } else {
+            maxHari = 30;
           }
-        } else { // agustus - desember
-          if (bulan % 2 == 0) { // bulan genap
-            DateTime future (t + TimeSpan(2678400)); // 31 hari
-            rtc.adjust(DateTime(tahun, future.month(), future.day(), jam, menit, detik));
-          } else { // bulan ganjil
-            DateTime future (t + TimeSpan(2592000)); // 30 hari
-            rtc.adjust(DateTime(tahun, future.month(), future.day(), jam, menit, detik));
+        } else { // aug - des
+          if (bulan % 2 == 1) {
+            maxHari = 30;
+          } else {
+            maxHari = 31;
           }
+        }
+        selisih = hari - maxHari;
+        if (selisih <= 0) {
+          rtc.adjust(DateTime(tahun, bulan, hari, jam, menit, detik));
+        } else {
+          rtc.adjust(DateTime(tahun, bulan, maxHari, jam, menit, detik));
         }
       }
       if (mode == 6) { // ubah tahun
@@ -317,34 +312,47 @@ void checkButton() {
         if (hari == 1){
           if (bulan == 12){
             bulan = 1;
-          }else{
-            bulan++;
+            rtc.adjust(DateTime(tahun, bulan, hari, jam, menit, detik));
+          } else {
+            rtc.adjust(DateTime(tahun, bulan+1, hari, jam, menit, detik));
           }
-          rtc.adjust(DateTime(tahun, bulan, hari, jam, menit, detik));
           updateWaktu();
         }
         DateTime future (t - TimeSpan(86400));
-        hari = future.day();
         rtc.adjust(DateTime(tahun, future.month(), future.day(), jam, menit, detik));
       }
       if (mode == 5) { // ubah bulan
-        DateTime future (t - TimeSpan(2592000));
-        if (future.month() == 1){
-          if(checkKabisat()){
-            rtc.adjust(DateTime(tahun, 2, 29, jam, menit, detik));
-          }else{
-            rtc.adjust(DateTime(tahun, 2, 28, jam, menit, detik));
+        if (bulan == 1) {
+          bulan = 12;
+        } else {
+          bulan--;
+        }
+        if (bulan < 8) { // jan - jul
+          if (bulan % 2 == 1) {
+            maxHari = 31;
+          } else if (bulan == 2) {
+            if (checkKabisat()) {
+              maxHari = 29;
+            } else {
+              maxHari = 28;
+            }
+          } else {
+            maxHari = 30;
+          }
+        } else { // aug - des
+          if (bulan % 2 == 1) {
+            maxHari = 30;
+          } else {
+            maxHari = 31;
           }
         }
-        if(future.month() == 2 && hari > 28){
-          if(checkKabisat()){
-            hari = 29;
-          }else{
-            hari = 28;
-          }
+        selisih = hari - maxHari;
+        if (selisih <= 0) {
+          rtc.adjust(DateTime(tahun, bulan, hari, jam, menit, detik));
+        } else {
+          rtc.adjust(DateTime(tahun, bulan, maxHari, jam, menit, detik));
         }
-        rtc.adjust(DateTime(tahun, future.month(), hari, jam, menit, detik));
-        }
+      }
       if (mode == 6) { // ubah tahun
         tahun--;
         if(bulan == 2 && hari > 28){
