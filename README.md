@@ -3,9 +3,9 @@ Tugas Akhir Embedded System
 
 ## Spesifikasi sistem:
 1. Tampilan Nama dan NRP pada awal jam hidup.
-2. Tanpilan dengan dot matrix 8x32
+2. Tampilan dengan dot matrix 8x32
 3. Tampilan waktu dengan format hh:mm:ss
-4. Tampilan tanggal dengan format dd:mm:yy pada detik 10-13
+4. Tampilan tanggal dengan format dd-mm-yy pada detik 10-13
 5. Tampilan suhu ruangan dengan format TT,TT°C pada detik 13-16
 6. Terdapat 3 tombol:
    - Tombol A untuk mengganti mode: run, ubah jam, ubah menit, ubah detik, ubah tanggal, ubah bulan, ubah tahun
